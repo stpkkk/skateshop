@@ -1,23 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+//img путь к картинке react найдет сам в папке public
+import Card from "./components/Card";
+import Drawer from "./components/Drawer";
+import Header from "./components/Header";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="wrapper clear">
+      <Drawer />
+      <Header />
+      <div className="content p-40">
+        <div className="d-flex justify-between align-center mb-40">
+          <h1 className="">All decks</h1>
+          <div className="search-block d-flex">
+            <img src="/img/search.svg" alt="Search" />
+            <input type="text" placeholder="Search..." />
+          </div>
+        </div>
+        <div className="decks d-flex justify-between">
+          <Card />
+          <Card />
+          <Card />
+          <Card />
+        </div>
+      </div>
     </div>
   );
 }
