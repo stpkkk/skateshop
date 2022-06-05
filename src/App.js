@@ -4,6 +4,21 @@ import Drawer from "./components/Drawer";
 import Header from "./components/Header";
 
 function App() {
+  const arr = [
+    { title: "BAKER BRAND LOGO DECK", price: 99, imageUrl: "/img/Decks/1.jpg" },
+    {
+      title: "BAKER JF BRAND NAME NOISE DECK",
+      price: 100,
+      imageUrl: "/img/Decks/2.jpg",
+    },
+    {
+      title: "BAKER JF BRAND NAME NOISE DECK Pink",
+      price: 95,
+      imageUrl: "/img/Decks/3.jpg",
+    },
+    { title: "BAKER BAKED GREEN", price: 110, imageUrl: "/img/Decks/4.jpg" },
+  ];
+
   return (
     <div className="wrapper clear">
       <Drawer />
@@ -16,11 +31,10 @@ function App() {
             <input type="text" placeholder="Search..." />
           </div>
         </div>
-        <div className="decks d-flex justify-between">
-          <Card />
-          <Card />
-          <Card />
-          <Card />
+        <div className="decks d-flex">
+          {arr.map((obj) => (
+            <Card title={obj.title} price={obj.price} imageUrl={obj.imageUrl} />
+          ))}
         </div>
       </div>
     </div>
