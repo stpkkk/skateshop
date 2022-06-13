@@ -21,6 +21,7 @@ body {
 	border: 1px solid #f3f3f3;
 	border-radius: 8px;
 	padding: 0 15px;
+	position: relative;
   }
   
   input {
@@ -28,6 +29,16 @@ body {
 	font-size: 16px;
 	padding: 10px;
 	width: 200px;
+  }
+
+  .inputClear {
+	position: absolute;
+	right: 10px;
+	top: 11px;
+	width: 15px;
+	height: 15px;
+	border-radius: 50%;
+	cursor: pointer;
   }
 
 

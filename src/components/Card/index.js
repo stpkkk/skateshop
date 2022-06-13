@@ -1,21 +1,28 @@
 import React, { useState } from "react";
 import styles from "./Card.module.scss";
 
-const Card = ({ onFavorite, title, price, imageUrl, onCart }) => {
+const Card = ({ title, price, imageUrl, onCart }) => {
   const [isAdded, setIsAdded] = useState(false);
+  const [inFavorite, setInFavorite] = useState(false);
+
 
   let onClickAdd = () => {
-    onCart({title, imageUrl, price});
+    onCart({title, imageUrl, price});//при клике передаем в Drawer(корзину) эти данные сюда передается obj это obj в onAddToCart
     setIsAdded(!isAdded); //"!"" чтобы добавлять и снимать кнопку, можно поставить true чтобы оставить
+  };
+
+  
+  const addToFavorite = () => {
+    setInFavorite(!inFavorite);
   };
 
   return (
     <div className={styles.card}>
-      <div className={styles.favorite} onClick={onFavorite}>
+      <div className={styles.favorite} onClick={addToFavorite}>
         <img
-          src="/img/heart-off.svg"
-          width={30}
-          height={30}
+          src={inFavorite ? "/img/heart-on.svg" : "./img/heart-off.svg"}
+          width={31}
+          height={31}
           alt="Add to favorite"
         />
       </div>

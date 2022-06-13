@@ -1,6 +1,5 @@
 .overlay {
   //   display: none;
-
   position: absolute;
   left: 0;
   top: 0;
@@ -29,9 +28,11 @@
   box-shadow: -10px 4px 24px rgba(0, 0, 0, 0.1);
   padding: 30px;
   height: 100%;
+  
 
-  .items {
-    flex-grow: 1;
+
+  .cartItems {
+	flex-grow: 1;
     overflow: auto;
     margin-bottom: 40px;
   }
@@ -49,7 +50,7 @@
   border-radius: 20px;
   padding: 20px;
   margin-top: 20px;
-  overflow: hidden; //скролл чтобы картинка не выходила за блок
+  overflow: hidden; 
   p {
     font-size: 16px;
   }
@@ -70,6 +71,7 @@
 
 .cartTotalBlock {
   ul {
+	margin-top: 60px !important;
     margin-bottom: 40px !important;
     li {
       display: flex;

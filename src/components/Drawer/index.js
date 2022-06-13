@@ -2,7 +2,13 @@ import React from "react";
 import styles from "./Drawer.module.scss";
 import "./Drawer.module.scss";
 
-const Drawer = ({ onCloseCart, cartItems = [], }) => {
+const Drawer = ({ onCloseCart, cartItems = [], setCartItems }) => {
+  //   const [removeItem, setRemoveItem] = useState(false);
+
+  const onRemoveItemCart = (index) => {
+    setCartItems([...cartItems.filter((obj) => obj.index !== index)]);
+  };
+
   return (
     <div className={styles.overlay}>
       <div className={styles.drawer}>
@@ -16,22 +22,27 @@ const Drawer = ({ onCloseCart, cartItems = [], }) => {
           />
         </h2>
         <div className={styles.cartItems}>
-          {cartItems.map((obj) => (
-            <div className={styles.cartItem}>
-              <img src={obj.imageUrl} width={80} height={80} alt="Deck" />
-              <div className="mr-20">
-                <p className="mb-5">{obj.title}</p>
-                <b>{obj.price} USD</b>
+          {cartItems
+            .map((obj, index) => (
+              <div className={styles.cartItem} key={index}>
+                <img src={obj.imageUrl} width={80} height={80} alt="Deck" />
+                <div className="mr-20">
+                  <p className="mb-5">{obj.title}</p>
+                  <b>{obj.price} USD</b>
+                </div>
+
+                <img
+                  onClick={onRemoveItemCart}
+                  className={styles.removeBtn}
+                  src="/img/btn-remove.svg"
+                  alt="Remove"
+                />
               </div>
-              <img
-                className={styles.removeBtn}
-                src="/img/btn-remove.svg"
-                alt="Remove"
-              />
-            </div>
-          ))}
+            ))}
 
           <div>
+          </div>
+        </div>
             <div className={styles.cartTotalBlock}>
               <ul>
                 <li>
@@ -55,8 +66,6 @@ const Drawer = ({ onCloseCart, cartItems = [], }) => {
                 />
               </button>
             </div>
-          </div>
-        </div>
       </div>
     </div>
   );
