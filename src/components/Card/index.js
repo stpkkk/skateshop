@@ -1,29 +1,28 @@
 import React, { useState } from "react";
 import styles from "./Card.module.scss";
 
-const Card = ({ title, price, imageUrl, onCart }) => {
+const Card = ({ title, price, imageUrl, onCart, onFavorite }) => {
   const [isAdded, setIsAdded] = useState(false);
-  const [inFavorite, setInFavorite] = useState(false);
-
+  const [isFavorite, setIsFavorite] = useState(false);
 
   let onClickAdd = () => {
-    onCart({title, imageUrl, price});//при клике передаем в Drawer(корзину) эти данные сюда передается obj это obj в onAddToCart
+    onCart({ title, imageUrl, price }); //при клике передаем в Drawer(корзину) эти данные сюда передается obj это obj в onAddToCart
     setIsAdded(!isAdded); //"!"" чтобы добавлять и снимать кнопку, можно поставить true чтобы оставить
   };
 
-  
   const addToFavorite = () => {
-    setInFavorite(!inFavorite);
+    onFavorite({ title, imageUrl, price });
+    setIsFavorite(!isFavorite);
   };
 
   return (
     <div className={styles.card}>
-      <div className={styles.favorite} onClick={addToFavorite}>
+      <div className={styles.favoriteItems} onClick={addToFavorite}>
         <img
-          src={inFavorite ? "/img/heart-on.svg" : "./img/heart-off.svg"}
+          src={isFavorite ? "/img/heart-on.svg" : "./img/heart-off.svg"}
           width={31}
           height={31}
-          alt="Add to favorite"
+          alt="Add to favoriteItems"
         />
       </div>
       <img src={imageUrl} width={133} height={133} alt="Baker1" />

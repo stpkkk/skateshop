@@ -1,6 +1,11 @@
 body {
   margin: 50px;
-  background-color: rgba(107, 101, 90, 0.637);
+  background-image:
+  url(https://catherineasquithgallery.com/uploads/posts/2021-02/1614280461_59-p-chernii-fon-dlya-chata-70.jpg); 
+-webkit-background-size: cover;
+// background-size: cover;
+//   background: #c7b39b url(img/bg.jpg);
+//   background: src:"img/background.jpg" ;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -17,29 +22,93 @@ body {
   margin: 50px auto;
 }
 
+.greenButton {
+  position: relative;
+
+  &:hover {
+    img {
+      transform: translateX(5px);
+    }
+  }
+
+  img {
+    position: absolute;
+    right: 30px;
+    top: 20px;
+    transition: transform 0.15s ease-in-out;
+  }
+}
+
+.greenButton {
+  width: 100%;
+  height: 55px;
+  background: #9dd558;
+  border-radius: 18px;
+  border: 0;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s ease-in-out;
+
+  &:hover {
+    background: lighten($color: #9dd558, $amount: 10%);
+  }
+
+  &:active {
+    background: darken($color: #9dd558, $amount: 10%);
+  }
+}
+
+.cartEmpty {
+  text-align: center;
+  p {
+    width: 280px;
+    line-height: 24px;
+  }
+
+  .greenButton {
+    width: 245px;
+    margin-top: 20px;
+
+    &:hover {
+      img {
+        transform: rotate(0deg) translateX(3px);
+      }
+    }
+
+    img {
+      position: relative;
+      top: 1px;
+      transform: rotate(180deg);
+      margin-right: 15px;
+      transition: transform 0.15s ease-in-out;
+    }
+  }
+}
+
 .search-block {
-	border: 1px solid #f3f3f3;
-	border-radius: 8px;
-	padding: 0 15px;
-	position: relative;
-  }
-  
-  input {
-	border: 0;
-	font-size: 16px;
-	padding: 10px;
-	width: 200px;
-  }
+  border: 1px solid #f3f3f3;
+  border-radius: 8px;
+  padding: 0 15px;
+  position: relative;
+}
 
-  .inputClear {
-	position: absolute;
-	right: 10px;
-	top: 11px;
-	width: 15px;
-	height: 15px;
-	border-radius: 50%;
-	cursor: pointer;
-  }
+input {
+  border: 0;
+  font-size: 16px;
+  padding: 10px;
+  width: 200px;
+}
 
+.inputClear {
+  position: absolute;
+  right: 10px;
+  top: 11px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  cursor: pointer;
+}
 
 

@@ -16,8 +16,13 @@ const Header = (props) => {
           <img src="/img/cart.svg" alt="Cart" width={20} height={20} />
           <span>27 USD</span>
         </li>
-        <li className="mr-30">
-          <img src="/img/favorite.svg" alt="Favorite" width={20} height={20} />
+        <li className="mr-30 cu-p" onClick={props.onClickFavorite}>
+          <img
+            src="/img/favorite.svg "
+            alt="Favorite"
+            width={20}
+            height={20}
+          />
         </li>
         <li>
           <img src="/img/user.svg" alt="Account" width={20} height={20} />

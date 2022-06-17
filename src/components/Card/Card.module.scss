@@ -6,13 +6,13 @@
   margin-right: 20px;
   margin-bottom: 30px;
   transition: box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out; //анимация на hover
-  
+
   &:hover {
     box-shadow: 0px 20px 35px rgba(0, 0, 0, 0.06);
     transform: translateY(-5px);
   }
 
-  .favorite {
+  .favoriteItems {
     position: absolute;
     cursor: pointer;
   }
