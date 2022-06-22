@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Card from "./components/Card";
 import Drawer from "./components/Drawer";
 import Header from "./components/Header";
-import Favorites from "./components/Favorites";
+import Favorites from "./pages/Favorites";
+import { Route, Routes } from "react-router-dom";
+import Home from "./pages/Home";
 
 function App() {
   const [items, setItems] = useState([]);
   const [cartItems, setCartItems] = useState([]);
   const [searchValue, setSearchValue] = useState("");
   const [cartOpened, setCartOpened] = useState(false);
-  const [favoriteItems, setFavoriteItems] = useState(false);
-  const [favoritesOpened, setFavoritesItems] = useState(false);
+  const [favoriteItems, setFavoriteItems] = useState([]);
+  const [favoritesOpened, setFavoritesOpened] = useState(false);
 
   useEffect(() => {
     // fetch("https://629f94fc461f8173e4ececc6.mockapi.io/decks")
@@ -33,7 +34,7 @@ function App() {
         setCartItems(res.data); //отправили запрос на сервер, , чтобы при обновлении корзины тоывары там сохранялись
       });
     axios
-      .get("https://629f94fc461f8173e4ececc6.mockapi.io/favorite")
+      .get("https://629f94fc461f8173e4ececc6.mockapi.io/favorites")
       .then((res) => {
         setFavoriteItems(res.data);
       });
@@ -44,15 +45,11 @@ function App() {
   };
 
   let onClickFavorite = () => {
-    setFavoritesItems(true);
+    setFavoritesOpened(true);
   };
 
   let onCloseСart = () => {
     setCartOpened(false);
-  };
-
-  let onCloseFavorites = () => {
-    setFavoritesItems(false);
   };
 
   const onAddToCart = (obj) => {
@@ -67,15 +64,24 @@ function App() {
     setCartItems((prev) => prev.filter((item) => item.id !== id)); //удаляем cartItem из корзины
   };
 
-  const onAddToFavorite = (obj) => {
-    axios.post(`https://629f94fc461f8173e4ececc6.mockapi.io/favorite`, obj);
-    setFavoriteItems((prev) => [...prev, obj]);
-  };
+  const onAddToFavorite = async (obj) => {
+    try {
+      if (favoriteItems.find((favObj) => (favObj.id = obj.id))) {
+        axios.delete(
+          `https://629f94fc461f8173e4ececc6.mockapi.io/favorites/${obj.id}`
+        );
+      } else {
+        const { data } = await axios.post(
+          `https://629f94fc461f8173e4ececc6.mockapi.io/favorites`,
+          obj
+        ); // ждем делит запрос потом отправляем этот запрос, await говорит что сначала выполни пред запрос , т.е. с помощь. этого запроса берем обьект не с home.jsx а с бэкэнда и дальше отрисовываем его
 
-  const onRemoveFavoriteItem = (id) => {
-    axios.delete(`https://629f94fc461f8173e4ececc6.mockapi.io/favorite/${id}`);
-    setFavoriteItems((prev) => prev.filter((item) => item.id !== id));
-  };
+        setFavoriteItems((prev) => [...prev, data]);
+      }
+    } catch (error) {
+      alert("could not be added to favorite");
+    }
+  }; //trycatch нужен чтобы отловить ошибку при вызове запроса, а без него не узнать когда эта ошибка произойдет
 
   //Search
   const onChangeSearchInput = (event) => {
@@ -98,51 +104,35 @@ function App() {
       {/* {showCart ? <Drawer onCloseCart={onCloseСart}/> : null} тот же результат что и свeрху && говорит если тут положительнок значение то выполни правую часть кода, если отрицательное то не выполняй*/}
 
       <Header onClickCart={onClickCart} onClickFavorite={onClickFavorite} />
-      <div className="content p-40">
-        {favoritesOpened && (
-          <Favorites
-            onRemoveFavoriteItem={onRemoveFavoriteItem}
-            onCloseFavorites={onCloseFavorites}
-            favoriteItems={favoriteItems}
-            onAddToCart={onAddToCart}
-          />
-        )}
-        <div className="d-flex justify-between align-center mb-40">
-          <h1>{searchValue ? `Search by: "${searchValue}"` : "All decks"}</h1>
-          <div className="search-block d-flex">
-            {searchValue && (
-              <img
-                onClick={onClearSearchInput}
-                className="inputClear"
-                src="/img/x.svg"
-                alt="Clear"
-              />
-            )}
-            <img src="/img/search.svg" alt="Search" />
-            <input
-              onChange={onChangeSearchInput}
-              value={searchValue} //чтобы импут был контролируемым, чтобы например добавить в импут кнопку стереть, т.е. привязываемся к этому value
-              placeholder="Search..."
+      <Routes>
+        <Route
+          path="/"
+          exact
+          element={
+            <Home
+              items={items}
+              searchValue={searchValue}
+              setSearchValue={setSearchValue}
+              onChangeSearchInput={onChangeSearchInput}
+              onClearSearchInput={onClearSearchInput}
+              onAddToFavorite={onAddToFavorite}
+              onAddToCart={onAddToCart}
+              favoritesOpened={favoritesOpened}
             />
-          </div>
-        </div>
-        <div className="decks d-flex flex-wrap">
-          {items
-            .filter((item) =>
-              item.title.toLowerCase().includes(searchValue.toLowerCase())
-            ) //логика строки поиска
-            .map((item, index) => (
-              <Card
-                key={index}
-                title={item.title}
-                price={item.price}
-                imageUrl={item.imageUrl}
-                onCart={(obj) => onAddToCart(obj)}
-                onFavorite={(obj) => onAddToFavorite(obj)}
-              />
-            ))}
-        </div>
-      </div>
+          }
+        />
+        <Route
+          path="/favorites"
+          exact
+          element={
+            <Favorites
+              favoriteItems={favoriteItems}
+              onAddToCart={onAddToCart}
+              onAddToFavorite={onAddToFavorite}
+            />
+          }
+        />
+      </Routes>
     </div>
   );
 }

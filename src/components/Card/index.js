@@ -1,9 +1,17 @@
 import React, { useState } from "react";
 import styles from "./Card.module.scss";
 
-const Card = ({ title, price, imageUrl, onCart, onFavorite }) => {
+const Card = ({
+	id,
+  title,
+  price,
+  imageUrl,
+  onCart,
+  onFavorite,
+  favorited = false,
+}) => {
   const [isAdded, setIsAdded] = useState(false);
-  const [isFavorite, setIsFavorite] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(favorited);
 
   let onClickAdd = () => {
     onCart({ title, imageUrl, price }); //при клике передаем в Drawer(корзину) эти данные сюда передается obj это obj в onAddToCart
@@ -11,7 +19,7 @@ const Card = ({ title, price, imageUrl, onCart, onFavorite }) => {
   };
 
   const addToFavorite = () => {
-    onFavorite({ title, imageUrl, price });
+    onFavorite({ id, title, imageUrl, price });
     setIsFavorite(!isFavorite);
   };
 
