@@ -5,6 +5,7 @@ import Header from "./components/Header";
 import Favorites from "./pages/Favorites";
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
+import AppContext from "./context";
 
 function App() {
   const [items, setItems] = useState([]);
@@ -13,31 +14,30 @@ function App() {
   const [cartOpened, setCartOpened] = useState(false);
   const [favoriteItems, setFavoriteItems] = useState([]);
   const [favoritesOpened, setFavoritesOpened] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // fetch("https://629f94fc461f8173e4ececc6.mockapi.io/decks")
-    //   .then((res) => {
-    //     return res.json();
-    //   })
-    //   .then((json) => {
-    //     setItems(json);
-    //   }); пример получения  даты с fetch, ниже с axios
-    //useEffect - говорит при первом рендере вызови эту функцию, при изменении кода в state снова ее не вызывай (иначе будут постоянные запросы на сервер)
-    axios
-      .get("https://629f94fc461f8173e4ececc6.mockapi.io/decks")
-      .then((res) => {
-        setItems(res.data); //запрос на сервер с карточками товаров
-      });
-    axios
-      .get("https://629f94fc461f8173e4ececc6.mockapi.io/cart")
-      .then((res) => {
-        setCartItems(res.data); //отправили запрос на сервер, , чтобы при обновлении корзины тоывары там сохранялись
-      });
-    axios
-      .get("https://629f94fc461f8173e4ececc6.mockapi.io/favorites")
-      .then((res) => {
-        setFavoriteItems(res.data);
-      });
+    async function fetchData() {
+      setIsLoading(true);
+      const cartResponse = await axios.get(
+        "https://629f94fc461f8173e4ececc6.mockapi.io/decks"
+      );
+      const favoriteResponse = await axios.get(
+        "https://629f94fc461f8173e4ececc6.mockapi.io/favorites"
+      );
+      const itemsResponse = await axios.get(
+        "https://629f94fc461f8173e4ececc6.mockapi.io/cart"
+      ); //сказали данные вытащи в любом порядке
+      //но сохраняй информацию в state в след порядке:
+
+      setIsLoading(false);
+
+      setCartItems(favoriteResponse.data);
+      setFavoriteItems(itemsResponse.data);
+      setItems(cartResponse.data);
+    }
+
+    fetchData();
   }, []);
 
   let onClickCart = () => {
@@ -53,10 +53,19 @@ function App() {
   };
 
   const onAddToCart = (obj) => {
-    axios.post(`https://629f94fc461f8173e4ececc6.mockapi.io/cart`, obj); //постим добавленные товары в корзину и добавляем в бэкенд, чтобы при обновлении корзины товары там сохранялись
-    // setCartItems([...cartItems, obj]);
-    setCartItems((prev) => [...prev, obj]); //пушим в массив в Drawer(инзначально пустой) наш obj
-    //prev берем предыдущие данные и пушим им obj, предпочтительней способ, потому что могут совпасть название переменных в большом проекте
+    if (cartItems.find((item) => Number(item.id) === Number(obj.id))) {
+      axios.delete(
+        `https://629f94fc461f8173e4ececc6.mockapi.io/cart/${obj.id}`
+      );
+      setCartItems((prev) =>
+        prev.filter((item) => Number(item.id) !== Number(obj.id))
+      );
+    } else {
+      axios.post(`https://629f94fc461f8173e4ececc6.mockapi.io/cart`, obj); //постим добавленные товары в корзину и добавляем в бэкенд, чтобы при обновлении корзины товары там сохранялись
+      // setCartItems([...cartItems, obj]);
+      //пушим в массив в Drawer(инзначально пустой) наш obj
+      setCartItems((prev) => [...prev, obj]);
+    }
   };
 
   const onRemoveItemCart = (id) => {
@@ -66,7 +75,7 @@ function App() {
 
   const onAddToFavorite = async (obj) => {
     try {
-      if (favoriteItems.find((favObj) => (favObj.id = obj.id))) {
+      if (favoriteItems.find((favObj) => favObj.id === obj.id)) {
         axios.delete(
           `https://629f94fc461f8173e4ececc6.mockapi.io/favorites/${obj.id}`
         );
@@ -93,47 +102,50 @@ function App() {
   };
 
   return (
-    <div className="wrapper clear">
-      {cartOpened && (
-        <Drawer
-          cartItems={cartItems}
-          onCloseCart={onCloseСart}
-          onRemoveItemCart={onRemoveItemCart}
-        />
-      )}
-      {/* {showCart ? <Drawer onCloseCart={onCloseСart}/> : null} тот же результат что и свeрху && говорит если тут положительнок значение то выполни правую часть кода, если отрицательное то не выполняй*/}
+    <AppContext.Provider value={{ cartItems, items,  favoriteItems }}>
+      <div className="wrapper clear">
+        {cartOpened && (
+          <Drawer
+            cartItems={cartItems}
+            onCloseCart={onCloseСart}
+            onRemoveItemCart={onRemoveItemCart}
+          />
+        )}
 
-      <Header onClickCart={onClickCart} onClickFavorite={onClickFavorite} />
-      <Routes>
-        <Route
-          path="/"
-          exact
-          element={
-            <Home
-              items={items}
-              searchValue={searchValue}
-              setSearchValue={setSearchValue}
-              onChangeSearchInput={onChangeSearchInput}
-              onClearSearchInput={onClearSearchInput}
-              onAddToFavorite={onAddToFavorite}
-              onAddToCart={onAddToCart}
-              favoritesOpened={favoritesOpened}
-            />
-          }
-        />
-        <Route
-          path="/favorites"
-          exact
-          element={
-            <Favorites
-              favoriteItems={favoriteItems}
-              onAddToCart={onAddToCart}
-              onAddToFavorite={onAddToFavorite}
-            />
-          }
-        />
-      </Routes>
-    </div>
+        <Header onClickCart={onClickCart} onClickFavorite={onClickFavorite} />
+        <Routes>
+          <Route
+            path="/"
+            exact
+            element={
+              <Home
+                cartItems={cartItems}
+                items={items}
+                searchValue={searchValue}
+                setSearchValue={setSearchValue}
+                onChangeSearchInput={onChangeSearchInput}
+                onClearSearchInput={onClearSearchInput}
+                onAddToFavorite={onAddToFavorite}
+                onAddToCart={onAddToCart}
+                favoritesOpened={favoritesOpened}
+                isLoading={isLoading}
+              />
+            }
+          />
+          <Route
+            path="/favorites"
+            exact
+            element={
+              <Favorites
+                // favoriteItems={favoriteItems}
+                onAddToCart={onAddToCart}
+                onAddToFavorite={onAddToFavorite}
+              />
+            }
+          />
+        </Routes>
+      </div>
+    </AppContext.Provider>
   );
 }
 

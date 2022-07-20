@@ -2,8 +2,10 @@ import React from "react";
 import Card from "../components/Card";
 import { Link } from "react-router-dom";
 import "../index.scss";
+import AppContext from "../context";
 
-const Favorites = ({ favoriteItems = [], onAddToCart, onAddToFavorite }) => {
+const Favorites = ({ onAddToCart, onAddToFavorite }) => {
+  const state = React.useContext(AppContext); //Context API
   return (
     <div className="content p-40">
       <div className="d-flex align-center mb-40">
@@ -18,9 +20,9 @@ const Favorites = ({ favoriteItems = [], onAddToCart, onAddToFavorite }) => {
         </Link>
         <h1>My bookmarks</h1>
       </div>
-      {favoriteItems.length > 0 ? (
+      {state.favoriteItems.length > 0 ? (
         <div className="d-flex flex-wrap">
-          {favoriteItems.map((item, index) => (
+          {state.favoriteItems.map((item, index) => (
             <Card
               key={index}
               onCart={(obj) => onAddToCart(obj)}
