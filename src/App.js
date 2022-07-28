@@ -20,21 +20,21 @@ function App() {
     async function fetchData() {
       setIsLoading(true);
       const cartResponse = await axios.get(
-        "https://629f94fc461f8173e4ececc6.mockapi.io/decks"
+        "https://629f94fc461f8173e4ececc6.mockapi.io/cart"
       );
       const favoriteResponse = await axios.get(
         "https://629f94fc461f8173e4ececc6.mockapi.io/favorites"
       );
       const itemsResponse = await axios.get(
-        "https://629f94fc461f8173e4ececc6.mockapi.io/cart"
+        "https://629f94fc461f8173e4ececc6.mockapi.io/decks"
       ); //сказали данные вытащи в любом порядке
       //но сохраняй информацию в state в след порядке:
 
       setIsLoading(false);
 
-      setCartItems(favoriteResponse.data);
-      setFavoriteItems(itemsResponse.data);
-      setItems(cartResponse.data);
+	  setCartItems(cartResponse.data);
+      setFavoriteItems(favoriteResponse.data);
+      setItems(itemsResponse.data);
     }
 
     fetchData();
@@ -51,6 +51,7 @@ function App() {
   let onCloseСart = () => {
     setCartOpened(false);
   };
+
 
   const onAddToCart = (obj) => {
     if (cartItems.find((item) => Number(item.id) === Number(obj.id))) {
@@ -75,10 +76,13 @@ function App() {
 
   const onAddToFavorite = async (obj) => {
     try {
-      if (favoriteItems.find((favObj) => favObj.id === obj.id)) {
+      if (favoriteItems.find((favObj) => Number(favObj.id) === Number(obj.id))) {
         axios.delete(
           `https://629f94fc461f8173e4ececc6.mockapi.io/favorites/${obj.id}`
         );
+		setFavoriteItems((prev) =>
+        prev.filter((item) => Number(item.id) !== Number(obj.id))
+      );
       } else {
         const { data } = await axios.post(
           `https://629f94fc461f8173e4ececc6.mockapi.io/favorites`,
@@ -88,7 +92,7 @@ function App() {
         setFavoriteItems((prev) => [...prev, data]);
       }
     } catch (error) {
-      alert("could not be added to favorite");
+      alert("Could not be added to favorite");
     }
   }; //trycatch нужен чтобы отловить ошибку при вызове запроса, а без него не узнать когда эта ошибка произойдет
 
@@ -101,12 +105,28 @@ function App() {
     setSearchValue("");
   };
 
+  const isItemAdded = (id) => {
+    return cartItems.some((obj) => Number(obj.id) === Number(id));
+  };
+
   return (
-    <AppContext.Provider value={{ cartItems, items,  favoriteItems }}>
+    <AppContext.Provider
+      value={{
+        items,
+        cartItems,
+        setCartItems,
+        favoriteItems,
+        onAddToFavorite,
+        isItemAdded,
+        onAddToCart,
+        setCartOpened,
+		onCloseСart
+      }}
+    >
       <div className="wrapper clear">
         {cartOpened && (
           <Drawer
-            cartItems={cartItems}
+            items={cartItems}
             onCloseCart={onCloseСart}
             onRemoveItemCart={onRemoveItemCart}
           />
@@ -127,8 +147,9 @@ function App() {
                 onClearSearchInput={onClearSearchInput}
                 onAddToFavorite={onAddToFavorite}
                 onAddToCart={onAddToCart}
-                favoritesOpened={favoritesOpened}
+                favoritesOpened={favoritesOpened}//?
                 isLoading={isLoading}
+				isItemAdded={isItemAdded}
               />
             }
           />
@@ -137,9 +158,6 @@ function App() {
             exact
             element={
               <Favorites
-                // favoriteItems={favoriteItems}
-                onAddToCart={onAddToCart}
-                onAddToFavorite={onAddToFavorite}
               />
             }
           />

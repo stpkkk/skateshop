@@ -1,8 +1,47 @@
-import React from "react";
+import { React, useState, useContext } from "react";
 import styles from "./Drawer.module.scss";
 import "../../index.scss";
+import Info from "../info";
+import AppContext from "../../context";
+import axios from "axios";
 
-const Drawer = ({ onCloseCart, cartItems = [], onRemoveItemCart }) => {
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms)); // костыль для mockapi
+
+const Drawer = ({ onCloseCart, items = [], onRemoveItemCart }) => {
+  const { cartItems, setCartItems } = useContext(AppContext);
+  const [orderId, setOrderId] = useState(null); // номер заказа
+  const [isOrderComplete, setIsOrderComplete] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); //true дб, 7 урок 3.10 часа
+
+  const onClickOrder = async () => {
+    try {
+      setIsLoading(true);
+      const { data } = axios.post(
+        "https://629f94fc461f8173e4ececc6.mockapi.io/orders",
+        {
+          items: cartItems,
+        }
+      );
+      //   console.log(data);
+      await axios.put("https://629f94fc461f8173e4ececc6.mockapi.io/cart/", []);
+      setOrderId(data.id);
+      setIsOrderComplete(true);
+      setCartItems([]);
+      //при на Order нажатии отправляю cartItems в бэк возвращаем пустой массив и благодаря этому корзина очищается
+
+      for (let i = 0; i < cartItems.length; i++) {
+        const item = cartItems[i];
+        await axios.delete(
+          "https://629f94fc461f8173e4ececc6.mockapi.io/cart/" + item.id
+        );
+        await delay(1000);
+      } //костыль для mockapi
+    } catch (error) {
+      alert("Failed to create order :( ");
+    }
+    setIsLoading(false);
+  };
+
   return (
     <div className={styles.overlay}>
       <div className={styles.drawer}>
@@ -16,10 +55,10 @@ const Drawer = ({ onCloseCart, cartItems = [], onRemoveItemCart }) => {
           />
         </h2>
 
-        {cartItems.length > 0 ? (
+        {items.length > 0 ? (
           <>
             <div className={styles.cartItems}>
-              {cartItems.map((obj, index) => (
+              {items.map((obj, index) => (
                 <div className={styles.cartItem} key={index}>
                   <img src={obj.imageUrl} width={80} height={80} alt="Deck" />
                   <div className="mr-20">
@@ -49,8 +88,12 @@ const Drawer = ({ onCloseCart, cartItems = [], onRemoveItemCart }) => {
                   <b>25.74 USD</b>
                 </li>
               </ul>
-              <button className="greenButton">
-                Order{" "}
+              <button
+                disabled={isLoading}
+                onClick={onClickOrder}
+                className="greenButton"
+              >
+                Order
                 <img
                   src="/img/arrow-right.svg"
                   width={13}
@@ -61,23 +104,23 @@ const Drawer = ({ onCloseCart, cartItems = [], onRemoveItemCart }) => {
             </div>
           </>
         ) : (
-          <div className="cartEmpty d-flex align-center justify-center flex-column flex">
-            <img
-              className="mb-20"
-              width="120px"
-              height="120px"
-              src="/img/empty-cart.png"
-              alt="Empty"
-            />
-            <h2>Cart is Empty</h2>
-            <p className="opacity-6">
-              Add some stuff in a cart to make an order!
-            </p>
-            <button onClick={onCloseCart} className="greenButton">
-              <img src="/img/arrow-left.svg" alt="Back" />
-              Back
-            </button>
-          </div>
+          <Info
+            title={
+              isOrderComplete ? "Congrats! Order complete!" : "Cart is Empty!"
+            }
+            description={
+              isOrderComplete
+                ? `Your order #${orderId} will be delivered to courier soon`
+                : "Add some stuff in a cart to make an order!"
+            }
+            image={
+              isOrderComplete
+                ? "/img/order-complete.jpg"
+                : "/img/empty-cart.png"
+            }
+            width={isOrderComplete ? "83" : "120"}
+            height="120"
+          />
         )}
       </div>
     </div>

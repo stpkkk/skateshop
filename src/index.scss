@@ -22,6 +22,10 @@ body {
 .greenButton {
   position: relative;
 
+  &:disabled {
+    animation: button-loading 0.8s ease-in-out infinite;
+  }
+
   &:hover {
     img {
       transform: translateX(5px);
@@ -46,7 +50,12 @@ body {
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  transition: opacity 0.2s ease-in-out;
+  transition: opacity 0.1s ease-in-out;
+
+  &:disabled {
+    background-color: #bebebe;
+    cursor: default;
+  }
 
   &:hover {
     background: lighten($color: #9dd558, $amount: 10%);
@@ -108,6 +117,15 @@ input {
   cursor: pointer;
 }
 
-  .favoritesEmpty {
-	
+
+@keyframes button-loading {
+  0% {
+    opacity: 1;
   }
+  50% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 1;
+  }
+}

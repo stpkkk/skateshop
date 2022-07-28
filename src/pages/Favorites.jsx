@@ -3,9 +3,11 @@ import Card from "../components/Card";
 import { Link } from "react-router-dom";
 import "../index.scss";
 import AppContext from "../context";
+import { useContext } from "react";
+import Info from "../components/info";
 
-const Favorites = ({ onAddToCart, onAddToFavorite }) => {
-  const state = React.useContext(AppContext); //Context API
+const Favorites = () => {
+  const {favoriteItems, onAddToFavorite, onAddToCart} = useContext(AppContext); //Context API
   return (
     <div className="content p-40">
       <div className="d-flex align-center mb-40">
@@ -20,9 +22,9 @@ const Favorites = ({ onAddToCart, onAddToFavorite }) => {
         </Link>
         <h1>My bookmarks</h1>
       </div>
-      {state.favoriteItems.length > 0 ? (
+      {favoriteItems.length > 0 ? (
         <div className="d-flex flex-wrap">
-          {state.favoriteItems.map((item, index) => (
+          {favoriteItems.map((item, index) => (
             <Card
               key={index}
               onCart={(obj) => onAddToCart(obj)}
@@ -33,16 +35,7 @@ const Favorites = ({ onAddToCart, onAddToFavorite }) => {
           ))}
         </div>
       ) : (
-        <div className="favoritesEmpty mt-50 d-flex align-center  flex-column ">
-          <img
-            src="/img/nothing-in-favorites.png"
-            alt="Empty in Favorites"
-            width={70}
-            height={70}
-          />
-          <h2>No Favorites </h2>
-          <p>Nothing added to favorites</p>
-        </div>
+		<Info width="70" height="70" image="/img/nothing-in-favorites.png" description="Nothing added to favorites"/>
       )}
     </div>
   );

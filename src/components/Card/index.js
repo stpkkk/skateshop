@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styles from "./Card.module.scss";
 import ContentLoader from "react-content-loader";
+import AppContext from "../../context";
 
 const Card = ({
   id,
@@ -10,19 +11,21 @@ const Card = ({
   onCart,
   onFavorite,
   favorited = false,
+  loading = false,
   added = false,
-  loading,
 }) => {
-  const [isAdded, setIsAdded] = useState(added);
+  const { isItemAdded } = useContext(AppContext);
   const [isFavorite, setIsFavorite] = useState(favorited);
+  const [isAdded, setIsAdded] = useState(added);
+  const obj = { id, parentId: id, title, imageUrl, price };
 
   let onClickAdd = () => {
-    onCart({ id, title, imageUrl, price }); //при клике передаем в Drawer(корзину) эти данные сюда передается obj это obj в onAddToCart
-    setIsAdded(!isAdded); //"!"" чтобы добавлять и снимать кнопку, можно поставить true чтобы оставить
+    onCart(obj); //при клике передаем в Drawer(корзину) эти данные сюда передается obj это obj в onAddToCart
+    setIsAdded(!isAdded);
   };
 
   const addToFavorite = () => {
-    onFavorite({ id, title, imageUrl, price });
+    onFavorite(obj);
     setIsFavorite(!isFavorite);
   };
 
@@ -45,30 +48,32 @@ const Card = ({
         </ContentLoader>
       ) : (
         <>
-            <div className={styles.favoriteItems} onClick={addToFavorite}>
-              <img
-                src={isFavorite ? "/img/heart-on.svg" : "./img/heart-off.svg"}
-                width={31}
-                height={31}
-                alt="Add to favoriteItems"
-              />
+          <div className={styles.favoriteItems} onClick={addToFavorite}>
+            <img
+              src={isFavorite ? "/img/heart-on.svg" : "./img/heart-off.svg"}
+              width={31}
+              height={31}
+              alt="Add to favoriteItems"
+            />
+          </div>
+          <img src={imageUrl} width="100%" height={160} alt="Baker1" />
+          <h5>{title}</h5>
+          <div className="d-flex justify-between align-center">
+            <div className="d-flex flex-column">
+              <span>Price:</span>
+              <b>{price} USD</b>
             </div>
-            <img src={imageUrl} width="100%" height={160} alt="Baker1" />
-            <h5>{title}</h5>
-            <div className="d-flex justify-between align-center">
-              <div className="d-flex flex-column">
-                <span>Price:</span>
-                <b>{price} USD</b>
-              </div>
+            {onCart && (
               <img
                 className={styles.plus}
                 onClick={onClickAdd}
                 src={
                   isAdded ? "./img/button-added.svg" : "./img/button-plus.svg"
                 }
-                alt="Добавить"
+                alt="Add to favorite"
               />
-            </div>
+            )}
+          </div>
         </>
       )}
     </div>

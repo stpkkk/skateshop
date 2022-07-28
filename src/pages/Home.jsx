@@ -1,37 +1,37 @@
-import React from "react";
+import {React, useContext} from "react";
 import Card from "../components/Card";
+import AppContext from "../context";
 
 const Home = ({
-  cartItems,
-  items,
   searchValue,
   onChangeSearchInput,
   onClearSearchInput,
   onAddToFavorite,
   onAddToCart,
   isLoading,
+  items,
 }) => {
-  const renderItems = () => {
-	const filteredItems = items.filter((item) =>
-	item.title.toLowerCase().includes(searchValue.toLowerCase()))//строка поиска ?!!!
-	const isAdded = () => {
-		cartItems.some((obj) => Number(obj.id) === Number(cartItems.id))//?
-	}
-    return (isLoading ? [...Array(8)] : filteredItems
-  ) //Если загрузка идет у нас будет массив из 8 фейковых  карточек со значением underfined иначе возвращаем отфильтрованные карточки
-       
+
+const {isItemAdded} = useContext(AppContext)
+
+	const renderItems = () => {
+		const filteredItems = items.filter((item) =>
+		  item.title.toLowerCase().includes(searchValue.toLowerCase()),
+		); //строка поиска ?!!!
+    return (isLoading ? [...Array(8)] : filteredItems) //Если загрузка идет у нас будет массив из 8 фейковых  карточек со значением underfined иначе возвращаем отфильтрованные карточки
+
       .map((item, index) => (
         <Card
           key={index}
-          
           onCart={(obj) => onAddToCart(obj)}
           onFavorite={(obj) => onAddToFavorite(obj)} //для значка сердечка в избранном
           loading={isLoading}
-          added={isAdded} //Eсли хотябы одно условие совапало (true)
+		  added={isItemAdded(item && item.id)}
           {...item} //передаем id, title price и т.д.
         />
       ));
   };
+
   return (
     <div className="content p-40">
       <div className="d-flex justify-between align-center mb-40">
