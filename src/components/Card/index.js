@@ -12,16 +12,13 @@ const Card = ({
   onFavorite,
   favorited = false,
   loading = false,
-  added = false,
 }) => {
   const { isItemAdded } = useContext(AppContext);
   const [isFavorite, setIsFavorite] = useState(favorited);
-  const [isAdded, setIsAdded] = useState(added);
   const obj = { id, parentId: id, title, imageUrl, price };
 
   let onClickAdd = () => {
     onCart(obj); //при клике передаем в Drawer(корзину) эти данные сюда передается obj это obj в onAddToCart
-    setIsAdded(!isAdded);
   };
 
   const addToFavorite = () => {
@@ -56,7 +53,7 @@ const Card = ({
               alt="Add to favoriteItems"
             />
           </div>
-          <img src={imageUrl} width="100%" height={160} alt="Baker1" />
+          <img src={imageUrl} width="100%" height={160} alt="Deck" />
           <h5>{title}</h5>
           <div className="d-flex justify-between align-center">
             <div className="d-flex flex-column">
@@ -68,7 +65,8 @@ const Card = ({
                 className={styles.plus}
                 onClick={onClickAdd}
                 src={
-                  isAdded ? "./img/button-added.svg" : "./img/button-plus.svg"
+					isItemAdded(id) ? "./img/button-added.svg" : "./img/button-plus.svg"
+
                 }
                 alt="Add to favorite"
               />

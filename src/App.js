@@ -52,22 +52,48 @@ function App() {
     setCartOpened(false);
   };
 
-
-  const onAddToCart = (obj) => {
-    if (cartItems.find((item) => Number(item.id) === Number(obj.id))) {
-      axios.delete(
-        `https://629f94fc461f8173e4ececc6.mockapi.io/cart/${obj.id}`
-      );
-      setCartItems((prev) =>
-        prev.filter((item) => Number(item.id) !== Number(obj.id))
-      );
-    } else {
-      axios.post(`https://629f94fc461f8173e4ececc6.mockapi.io/cart`, obj); //постим добавленные товары в корзину и добавляем в бэкенд, чтобы при обновлении корзины товары там сохранялись
-      // setCartItems([...cartItems, obj]);
-      //пушим в массив в Drawer(инзначально пустой) наш obj
-      setCartItems((prev) => [...prev, obj]);
+  const onAddToCart = async (obj) => {
+    try {
+      const findItem = cartItems.find((item) => Number(item.parentId) === Number(obj.id));
+      if (findItem) {
+        setCartItems((prev) => prev.filter((item) => Number(item.parentId) !== Number(obj.id)));
+        await axios.delete(`https://629f94fc461f8173e4ececc6.mockapi.io/cart/${findItem.id}`);
+      } else {
+        setCartItems((prev) => [...prev, obj]);
+        const { data } = await axios.post('https://629f94fc461f8173e4ececc6.mockapi.io/cart', obj);
+        setCartItems((prev) =>
+          prev.map((item) => {
+            if (item.parentId === data.parentId) {
+              return {
+                ...item,
+                id: data.id,
+              };
+            }
+            return item;
+          }),
+        );
+      }
+    } catch (error) {
+      alert('Ошибка при добавлении в корзину');
+      console.error(error);
     }
   };
+
+//   const onAddToCart = (obj) => {
+//     if (cartItems.find((item) => Number(item.id) === Number(obj.id))) {
+//       axios.delete(
+//         `https://629f94fc461f8173e4ececc6.mockapi.io/cart/${obj.id}`
+//       );
+//       setCartItems((prev) =>
+//         prev.filter((item) => Number(cartItems.id) !== Number(obj.id))
+//       );
+//     } else {
+//       axios.post(`https://629f94fc461f8173e4ececc6.mockapi.io/cart`, obj); //постим добавленные товары в корзину и добавляем в бэкенд, чтобы при обновлении корзины товары там сохранялись
+//       // setCartItems([...cartItems, obj]);
+//       //пушим в массив в Drawer(инзначально пустой) наш obj
+//       setCartItems((prev) => [...prev, obj]);
+//     }
+//   };
 
   const onRemoveItemCart = (id) => {
     axios.delete(`https://629f94fc461f8173e4ececc6.mockapi.io/cart/${id}`);
@@ -107,7 +133,10 @@ function App() {
 
   const isItemAdded = (id) => {
     return cartItems.some((obj) => Number(obj.id) === Number(id));
+
   };
+//   console.log(items);
+
 
   return (
     <AppContext.Provider
