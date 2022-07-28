@@ -16,14 +16,11 @@ const Drawer = ({ onCloseCart, items = [], onRemoveItemCart }) => {
   const onClickOrder = async () => {
     try {
       setIsLoading(true);
-      const { data } = axios.post(
+      const { data } = await axios.post(
         "https://629f94fc461f8173e4ececc6.mockapi.io/orders",
-        {
-          items: cartItems,
-        }
-      );
-      //   console.log(data);
-      await axios.put("https://629f94fc461f8173e4ececc6.mockapi.io/cart/", []);
+        { items: cartItems }
+      );// долго искал ошибку, забыл в await перед axios.post
+
       setOrderId(data.id);
       setIsOrderComplete(true);
       setCartItems([]);
@@ -35,9 +32,9 @@ const Drawer = ({ onCloseCart, items = [], onRemoveItemCart }) => {
           "https://629f94fc461f8173e4ececc6.mockapi.io/cart/" + item.id
         );
         await delay(1000);
-      } //костыль для mockapi
+      } //костыль для mockapi (ждем 1сек до след действия)
     } catch (error) {
-      alert("Failed to create order :( ");
+      //   alert("Failed to create order :( ");
     }
     setIsLoading(false);
   };
