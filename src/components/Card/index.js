@@ -45,14 +45,16 @@ const Card = ({
         </ContentLoader>
       ) : (
         <>
-          <div className={styles.favoriteItems} onClick={addToFavorite}>
-            <img
-              src={isFavorite ? "/img/heart-on.svg" : "./img/heart-off.svg"}
-              width={31}
-              height={31}
-              alt="Add to favoriteItems"
-            />
-          </div>
+          {onFavorite && ( //чтобы не было кнопки добавить в Избранное
+            <div className={styles.favoriteItems} onClick={addToFavorite}>
+              <img
+                src={isFavorite ? "/img/heart-on.svg" : "./img/heart-off.svg"}
+                width={31}
+                height={31}
+                alt="Add to favoriteItems"
+              />
+            </div>
+          )}
           <img src={imageUrl} width="100%" height={160} alt="Deck" />
           <h5>{title}</h5>
           <div className="d-flex justify-between align-center">
@@ -60,13 +62,14 @@ const Card = ({
               <span>Price:</span>
               <b>{price} USD</b>
             </div>
-            {onCart && (
+            {onCart && ( //чтобы не было кнопки добавить в корзину
               <img
                 className={styles.plus}
                 onClick={onClickAdd}
                 src={
-					isItemAdded(id) ? "./img/button-added.svg" : "./img/button-plus.svg"
-
+                  isItemAdded(id)
+                    ? "./img/button-added.svg"
+                    : "./img/button-plus.svg"
                 }
                 alt="Add to favorite"
               />

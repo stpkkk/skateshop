@@ -6,15 +6,29 @@
   width: 100%;
   background-color: rgba(0, 0, 0, 0.1);
   z-index: 1;
+  visibility: hidden;
+  opacity: 0; //анимация корзины
+  transition: opacity 0.3s ease-out, visibility 0.3s ease-out;//анимация корзины
+  overflow: hidden;//анимация корзины, чтобы не было скролла
+
 }
 
+.overlayVisible {
+	visibility: visible;//анимация корзины
+	opacity: 1;
+  
+	.drawer {
+	  transform: translateX(0);//анимация корзины
+	}
+  }
+
 .removeBtn {
-    opacity: 0.5;
-    transition: opacity 0.2s ease-in-out;
-    cursor: pointer;
-    &:hover {
-      opacity: 1;
-    }
+  opacity: 0.5;
+  transition: opacity 0.2s ease-in-out;
+  cursor: pointer;
+  &:hover {
+    opacity: 1;
+  }
 }
 
 .drawer {
@@ -27,11 +41,11 @@
   box-shadow: -10px 4px 24px rgba(0, 0, 0, 0.1);
   padding: 30px;
   height: 100%;
-  
-
+  transform: translateX(100%); //анимация корзины, выезжает сбоку
+  transition: transform 0.3s ease-out;//анимация корзины, выезжает сбоку
 
   .cartItems {
-	flex-grow: 1;
+    flex-grow: 1;
     overflow: auto;
     margin-bottom: 40px;
   }
@@ -49,7 +63,7 @@
   border-radius: 20px;
   padding: 20px;
   margin-top: 20px;
-  overflow: hidden; 
+  overflow: hidden;
   p {
     font-size: 16px;
   }
@@ -70,7 +84,7 @@
 
 .cartTotalBlock {
   ul {
-	margin-top: 60px !important;
+    margin-top: 60px !important;
     margin-bottom: 40px !important;
     li {
       display: flex;
@@ -87,8 +101,3 @@
     }
   }
 }
-
-
-
-
-

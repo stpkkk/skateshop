@@ -1,9 +1,8 @@
-import React from "react";
+import { useContext, React } from "react";
 import Card from "../components/Card";
 import { Link } from "react-router-dom";
 import "../index.scss";
 import AppContext from "../context";
-import { useContext } from "react";
 import Info from "../components/info";
 
 const Favorites = () => {

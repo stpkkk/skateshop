@@ -27,7 +27,7 @@ const {isItemAdded} = useContext(AppContext)
           onFavorite={(obj) => onAddToFavorite(obj)} //для значка сердечка в избранном
           loading={isLoading}
 		  added={isItemAdded(item && item.id)}
-          {...item} //передаем id, title price и т.д.
+          {...item} //передаем весь обьект (id, title price и т.д.)
         />
       ));
   };
