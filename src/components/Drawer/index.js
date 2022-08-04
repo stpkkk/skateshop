@@ -10,12 +10,11 @@ import styles from "./Drawer.module.scss";
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms)); // костыль для mockapi
 
-				
 const Drawer = ({ onCloseCart, items = [], onRemoveItemCart, opened }) => {
-	const [orderId, setOrderId] = useState(null); // номер заказа
-	const [isOrderComplete, setIsOrderComplete] = useState(false);
+  const [orderId, setOrderId] = useState(null); // номер заказа
+  const [isOrderComplete, setIsOrderComplete] = useState(false);
 
-  const {cartItems, setCartItems, totalPrice} = useCart()//кастомный хук
+  const { cartItems, setCartItems, totalPrice } = useCart(); //кастомный хук
   const [isLoading, setIsLoading] = useState(false); //true дб, 7 урок 3.10 часа
 
   const onClickOrder = async () => {
@@ -46,14 +45,14 @@ const Drawer = ({ onCloseCart, items = [], onRemoveItemCart, opened }) => {
   };
 
   return (
-    <div className={`${styles.overlay} ${opened ? styles.overlayVisible : ''}`}>
+    <div className={`${styles.overlay} ${opened ? styles.overlayVisible : ""}`}>
       <div className={styles.drawer}>
         <h2 className="d-flex justify-between mb-20">
           Cart
           <img
             onClick={onCloseCart}
             className={styles.removeBtn}
-            src="/img/btn-remove.svg"
+            src="img/btn-remove.svg"
             alt="Close"
           />
         </h2>
@@ -72,7 +71,7 @@ const Drawer = ({ onCloseCart, items = [], onRemoveItemCart, opened }) => {
                   <img
                     onClick={() => onRemoveItemCart(obj.id)}
                     className={styles.removeBtn}
-                    src="/img/btn-remove.svg"
+                    src="img/btn-remove.svg"
                     alt="Remove"
                   />
                 </div>
@@ -88,7 +87,7 @@ const Drawer = ({ onCloseCart, items = [], onRemoveItemCart, opened }) => {
                 <li>
                   <span>Tax 13%:</span>
                   <div></div>
-                  <b>{(totalPrice * 0.13).toFixed(2)} USD</b> 
+                  <b>{(totalPrice * 0.13).toFixed(2)} USD</b>
                 </li>
               </ul>
               <button
@@ -98,7 +97,7 @@ const Drawer = ({ onCloseCart, items = [], onRemoveItemCart, opened }) => {
               >
                 Order
                 <img
-                  src="/img/arrow-right.svg"
+                  src="img/arrow-right.svg"
                   width={13}
                   height={13}
                   alt="Order"
@@ -117,9 +116,7 @@ const Drawer = ({ onCloseCart, items = [], onRemoveItemCart, opened }) => {
                 : "Add some stuff in cart to make an order!"
             }
             image={
-              isOrderComplete
-                ? "/img/order-complete.jpg"
-                : "/img/empty-cart.png"
+              isOrderComplete ? "img/order-complete.jpg" : "img/empty-cart.png"
             }
             width={isOrderComplete ? "83" : "120"}
             height="120"

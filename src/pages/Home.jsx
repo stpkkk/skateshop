@@ -1,4 +1,4 @@
-import {React, useContext} from "react";
+import { React, useContext } from "react";
 import Card from "../components/Card";
 import AppContext from "../context";
 
@@ -11,13 +11,12 @@ const Home = ({
   isLoading,
   items,
 }) => {
+  const { isItemAdded } = useContext(AppContext);
 
-const {isItemAdded} = useContext(AppContext)
-
-	const renderItems = () => {
-		const filteredItems = items.filter((item) =>
-		  item.title.toLowerCase().includes(searchValue.toLowerCase()),
-		); //строка поиска ?!!!
+  const renderItems = () => {
+    const filteredItems = items.filter((item) =>
+      item.title.toLowerCase().includes(searchValue.toLowerCase())
+    ); //строка поиска ?!!!
     return (isLoading ? [...Array(8)] : filteredItems) //Если загрузка идет у нас будет массив из 8 фейковых  карточек со значением underfined иначе возвращаем отфильтрованные карточки
 
       .map((item, index) => (
@@ -26,7 +25,7 @@ const {isItemAdded} = useContext(AppContext)
           onCart={(obj) => onAddToCart(obj)}
           onFavorite={(obj) => onAddToFavorite(obj)} //для значка сердечка в избранном
           loading={isLoading}
-		  added={isItemAdded(item && item.id)}
+          added={isItemAdded(item && item.id)}
           {...item} //передаем весь обьект (id, title price и т.д.)
         />
       ));
