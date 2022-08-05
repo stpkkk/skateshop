@@ -15,3 +15,24 @@ header {
     margin: 0;
   }
 }
+
+.switch {
+  display: flex;
+  width: 100vw;
+  height: 100px;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+.switch label {
+  font-size: 50px;
+}
+
+#light .switch label {
+  color: black;
+}
+
+#dark .switch label {
+  color: antiquewhite;
+}

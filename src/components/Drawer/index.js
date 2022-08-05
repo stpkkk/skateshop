@@ -1,7 +1,9 @@
 import { React, useState } from "react";
+import { useContext } from "react";
 
 import axios from "axios";
 import Info from "../info";
+import AppContext from "../../context";
 
 import { useCart } from "../../hooks/useCart";
 
@@ -44,9 +46,11 @@ const Drawer = ({ onCloseCart, items = [], onRemoveItemCart, opened }) => {
     setIsLoading(false);
   };
 
+  const { theme } = useContext(AppContext);
+
   return (
     <div className={`${styles.overlay} ${opened ? styles.overlayVisible : ""}`}>
-      <div className={styles.drawer}>
+      <div className={styles.drawer} id={theme}>
         <h2 className="d-flex justify-between mb-20">
           Cart
           <img

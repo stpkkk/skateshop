@@ -22,6 +22,7 @@ function App() {
   const [cartOpened, setCartOpened] = useState(false);
   const [favoriteItems, setFavoriteItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [theme, setTheme] = useState("light"); //https://www.youtube.com/watch?v=VzF2iTTc0MA
 
   //  useEffect с помощью promise.all, лучше пользоваться другим вариантом, т.к. promise.all делает сразу все три запроса в данном случае, что мб не очень удобно
   //  useEffect(() => {
@@ -169,6 +170,10 @@ function App() {
     return cartItems.some((obj) => Number(obj.parentId) === Number(id));
   }; // пробегаемся по массиву в корзине и уже в массиве корзины вытаскивать parentId и сверять его с id кот. будет передаваться в карточке
 
+  const toggleTheme = () => {
+    setTheme((curr) => (curr === "light" ? "dark" : "light"));
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -181,9 +186,11 @@ function App() {
         onAddToCart,
         setCartOpened,
         onCloseСart,
+        theme,
+		toggleTheme
       }}
     >
-      <div className="wrapper clear">
+      <div className="wrapper clear" id={theme}>
         <Drawer
           items={cartItems}
           onCloseCart={onCloseСart}
