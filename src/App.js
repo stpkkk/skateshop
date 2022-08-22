@@ -3,17 +3,20 @@
 //TODO dark theme
 //TODO login
 //TODO json placeholder service
-//TODO pagination
+//TODO pagination with pizza course
 //TODO useReducer
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Drawer from "./components/Drawer";
-import Header from "./components/Header";
-import Favorites from "./pages/Favorites";
 import { Route, Routes } from "react-router-dom";
+
+import Header from "./components/header";
 import Home from "./pages/Home";
+import Drawer from "./components/drawer";
+import Favorites from "./pages/Favorites";
 import Orders from "./pages/Orders";
-import AppContext from "./context";
+import AuthForm from "./pages/AuthForm/AuthForm";
+
+import AppContext from "./contexts/context";
 
 function App() {
   const [items, setItems] = useState([]);
@@ -22,7 +25,7 @@ function App() {
   const [cartOpened, setCartOpened] = useState(false);
   const [favoriteItems, setFavoriteItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [theme, setTheme] = useState("light"); //https://www.youtube.com/watch?v=VzF2iTTc0MA
+  const [theme, setTheme] = useState("dark"); //https://www.youtube.com/watch?v=VzF2iTTc0MA
 
   //  useEffect с помощью promise.all, лучше пользоваться другим вариантом, т.к. promise.all делает сразу все три запроса в данном случае, что мб не очень удобно
   //  useEffect(() => {
@@ -76,9 +79,13 @@ function App() {
     fetchData();
   }, []);
 
-  const onClickCart = () => {
+ /**
+  @param 
+  */
+ const onClickCart = () => {
     setCartOpened(true);
   };
+  
 
   const onCloseСart = () => {
     setCartOpened(false);
@@ -175,6 +182,7 @@ function App() {
   };
 
   return (
+	
     <AppContext.Provider
       value={{
         items,
@@ -187,7 +195,7 @@ function App() {
         setCartOpened,
         onCloseСart,
         theme,
-		toggleTheme
+        toggleTheme,
       }}
     >
       <div className="wrapper clear" id={theme}>
@@ -199,10 +207,12 @@ function App() {
         />
         <Header onClickCart={onClickCart} />
         <Routes>
+
           <Route
             path="/"
             exact
             element={
+				
               <Home
                 cartItems={cartItems}
                 items={items}
@@ -217,8 +227,10 @@ function App() {
               />
             }
           />
+		  
           <Route path="/favorites" exact element={<Favorites />} />
           <Route path="/orders" exact element={<Orders />} />
+          <Route path="/authform" element={<AuthForm />} />
         </Routes>
       </div>
     </AppContext.Provider>

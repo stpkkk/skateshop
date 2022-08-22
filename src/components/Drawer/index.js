@@ -3,7 +3,7 @@ import { useContext } from "react";
 
 import axios from "axios";
 import Info from "../info";
-import AppContext from "../../context";
+import AppContext from "../../contexts/context";
 
 import { useCart } from "../../hooks/useCart";
 

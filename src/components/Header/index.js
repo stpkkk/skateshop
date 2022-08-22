@@ -2,12 +2,24 @@ import { React, useContext } from "react";
 import { Link } from "react-router-dom";
 import "./Header.module.scss";
 import { useCart } from "../../hooks/useCart";
-import ReactSwitch from "react-switch";
-import AppContext from "../../context";
+import ReactSwitch from "react-switch"; //toggle for theme
+
+import AppContext from "../../contexts/context";
+import { useUserContext } from "../../contexts/userContext";
 
 const Header = (props) => {
   const { totalPrice } = useCart();
+
   const { theme, toggleTheme } = useContext(AppContext);
+  const { logOutUser, user } = useUserContext();
+
+  const handleSignOut = async () => {
+    try {
+      await logOutUser();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <header className="d-flex justify-between align-center p-20">
@@ -21,10 +33,10 @@ const Header = (props) => {
         </div>
       </Link>
       <ul className="headerRight d-flex">
-        <li className="switch mr-30 cu-p">
-          <label className="mr-10">
-            {theme === "light" ? "Light Mode" : "Dark Mode"}
-          </label>
+        <li className="switch mr-30 cu-p d-flex">
+          <div className="mr-10">
+            {theme === "light" ? "Light mode" : "Dark mode"}
+          </div>
           <ReactSwitch onChange={toggleTheme} checked={theme === "dark"} />
         </li>
         <li className="mr-30 cu-p" onClick={props.onClickCart}>
@@ -42,10 +54,32 @@ const Header = (props) => {
           </Link>
         </li>
         <Link to="/orders">
-          <li className="cu-p">
-            <img src="img/User.svg" alt="Account" width={20} height={20} />
+          <li className="pr-20">
+            <img
+              className="cu-p "
+              src="img/User.svg"
+              alt="Account"
+              width={20}
+              height={20}
+            />
           </li>
         </Link>
+
+        {user ? (
+			<Link to="/">
+          <li className="cu-p d-flex" onClick={handleSignOut}>
+            <div className="mr-10 justify-content-center">Log Out</div>
+            <img src="img/login.svg" alt="Log Out" width={20} height={20} />
+          </li>
+		  </Link>
+        ) : (
+          <Link to="/authform">
+            <li className="cu-p d-flex">
+              <div className="mr-10 justify-content-center">Log in</div>
+              <img src="img/login.svg" alt="Log In" width={20} height={20} />
+            </li>
+          </Link>
+        )}
       </ul>
     </header>
   );

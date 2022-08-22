@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import styles from "./Card.module.scss";
 import ContentLoader from "react-content-loader";
-import AppContext from "../../context";
+import AppContext from "../../contexts/context";
 
 const Card = ({
   id,

@@ -1,6 +1,6 @@
 //кастомный хук, применяется там где код повторяется
 import { useContext } from "react";
-import AppContext from "../context";
+import AppContext from "../contexts/context";
 
 export const useCart = () => {
   const { cartItems, setCartItems } = useContext(AppContext);

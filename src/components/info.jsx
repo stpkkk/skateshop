@@ -1,5 +1,5 @@
 import React from "react";
-import AppContext from "./../context";
+import AppContext from "../contexts/context";
 
 const Info = ({ width, height, title, image, description }) => {
   const { onCloseСart } = React.useContext(AppContext);
