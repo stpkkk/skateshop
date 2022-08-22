@@ -2,6 +2,7 @@ import { React, useContext } from "react";
 import Card from "../components/card";
 import Slider from "../components/slider/Slider";
 import AppContext from "../contexts/context";
+import { sliderData } from "../components/slider/sliderData";
 
 const Home = ({
   searchValue,
@@ -34,7 +35,7 @@ const Home = ({
 
   return (
     <div className="content p-40">
-		<Slider/>
+		<Slider slides = {sliderData}/>
       <div className="d-flex justify-between align-center mb-40">
         <h1>{searchValue ? `Search by: "${searchValue}"` : "All decks"}</h1>
         <div className="search-block d-flex">

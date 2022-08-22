@@ -1,0 +1,22 @@
+export const sliderData = [
+  {
+    image:
+      "https://cdn.shoplightspeed.com/shops/603507/files/19120039/14-things-you-didnt-know-about-baker-skateboards.jpg",
+  },
+  {
+    image:
+      "https://cdn.shopify.com/s/files/1/0410/8799/1967/articles/slide_2_900x.jpg?v=1596161010",
+  },
+  {
+    image:
+      "https://i.pinimg.com/564x/c5/ba/65/c5ba6599e57afa1b32275c0cf51ad261.jpg",
+  },
+  {
+    image:
+      "http://a.espncdn.com/combiner/i?img=/photo/2013/1018/as_skate_BL1_2048.jpg&w=800",
+  },
+  {
+    image:
+      "https://i.ytimg.com/vi/KJONeJdKbiQ/maxresdefault.jpg",
+  },
+];
