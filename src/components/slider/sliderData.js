@@ -5,18 +5,18 @@ export const sliderData = [
   },
   {
     image:
-      "https://cdn.shopify.com/s/files/1/0410/8799/1967/articles/slide_2_900x.jpg?v=1596161010",
+      "https://cdnya.proimagescdn.ru/mainrek/newpro/bbed86f966e9826fcc62c1ab0ab537b0.webp",
   },
   {
     image:
-      "https://i.pinimg.com/564x/c5/ba/65/c5ba6599e57afa1b32275c0cf51ad261.jpg",
+      "https://cdnya.proimagescdn.ru/mainrek/newpro/c01a9852f9619c4e1525f04e5fe90dc2.webp",
   },
   {
     image:
-      "http://a.espncdn.com/combiner/i?img=/photo/2013/1018/as_skate_BL1_2048.jpg&w=800",
+      "https://cdnya.proimagescdn.ru/mainrek/newpro/e35d51a731c29b50ea32bd261d225a99.webp",
   },
   {
     image:
-      "https://i.ytimg.com/vi/KJONeJdKbiQ/maxresdefault.jpg",
+      "https://cdnya.proimagescdn.ru/mainrek/newpro/491e7d2425352c88ff1268e80a193f55.webp",
   },
 ];
