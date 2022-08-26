@@ -3,17 +3,23 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  max-width: 1000px;
   height: 330px;
   border-radius: 10px;
+  margin: 0 auto;
   margin-bottom: 40px;
+  max-width: 1000px;
+  overflow: hidden; //адаптивность слайдера make the content flowing outside the element's box invisible
 }
 
-.slideImg {
+.sliderImg {
   min-width: 1000px;
   height: 330px;
   border-radius: 10px;
   position: relative;
+}
+
+.slide.active {
+  transition: ease-in-out 2000ms;
 }
 
 .rightArrow {
@@ -44,6 +50,6 @@
   font-size: 20px;
   color: rgb(182, 171, 178);
   align-content: flex-end;
-  margin-top: 250px;
+  margin: 250px 15px 7px 0px;
   cursor: pointer;
 }

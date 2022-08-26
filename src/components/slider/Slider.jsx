@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+//https://tinloof.com/blog/how-to-build-an-auto-play-slideshow-with-react
+import React, { useState, useEffect } from "react";
 import styles from "./Slider.module.scss";
 import {
   BsFillArrowLeftCircleFill,
@@ -8,6 +9,19 @@ import { sliderData } from "./sliderData";
 
 const Slider = ({ slides }) => {
   const [current, setCurrent] = useState(0);
+  const delay = 4000;
+
+  useEffect(() => {
+    setTimeout(
+      () =>
+        setCurrent((prevIndex) =>
+          prevIndex === sliderData.length - 1 ? 0 : prevIndex + 1
+        ),
+      delay
+    );
+
+    return () => {};
+  }, [current]);
 
   const nextSlide = () => {
     setCurrent(current === slides.length - 1 ? 0 : current + 1);
@@ -46,7 +60,7 @@ const Slider = ({ slides }) => {
               <img
                 src={slide.image}
                 alt="advert"
-                className={styles.slideImg}
+                className={styles.sliderImg}
                 width={950}
                 height={380}
               />
