@@ -57,7 +57,7 @@ const Card = ({
           )}
           <img src={imageUrl} width="100%" height={160} alt="Deck" />
           <h5>{title}</h5>
-          <div className="d-flex justify-between align-center">
+          <div className="d-flex justify-between align-center ">
             <div className="d-flex flex-column">
               <span>Price:</span>
               <b>{price} USD</b>

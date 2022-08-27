@@ -69,7 +69,7 @@ export const UserContextProvider = ({ children }) => {
   };
 
   const forgotPassword = (email) => {
-    return sendPasswordResetEmail(auth, email);
+    return sendPasswordResetEmail(auth, email, {url:'http://localhost:3000/authform'});
   };
 
   const contextValue = {

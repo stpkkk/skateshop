@@ -1,4 +1,6 @@
 //https://tinloof.com/blog/how-to-build-an-auto-play-slideshow-with-react
+
+//https://www.youtube.com/watch?v=SK9AlIbexOE&t=744s
 import React, { useState, useEffect } from "react";
 import styles from "./Slider.module.scss";
 import {

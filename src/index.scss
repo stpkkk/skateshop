@@ -148,11 +148,19 @@ input {
 } //анимация кнопки order в cart
 
 .error {
-	background-color: tomato;
-	color: white;
-	border-radius: 6px;
-	padding: 6px 12px;
-	font-weight: bold;
-	max-width: 450px;
-	margin-bottom: 18px;
-  }
+  background-color: tomato;
+  color: white;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-weight: bold;
+  max-width: 450px;
+  margin-bottom: 18px;
+}
+
+.cardItems {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+

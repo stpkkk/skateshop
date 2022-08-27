@@ -24,6 +24,7 @@ const Home = ({
       .map((item, index) => (
         <Card
           key={index}
+		  className="Card"
           onCart={(obj) => onAddToCart(obj)}
           onFavorite={(obj) => onAddToFavorite(obj)} //для значка сердечка в избранном
           loading={isLoading}
@@ -55,7 +56,7 @@ const Home = ({
           />
         </div>
       </div>
-      <div className="d-flex flex-wrap">{renderItems()}</div>
+      <div className="cardItems">{renderItems()}</div>
     </div>
   );
 };

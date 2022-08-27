@@ -1,9 +1,8 @@
 .card {
   border: 1px solid #eaeaea;
   padding: 20px;
-  width: 210px;
+  max-width: 220px;
   border-radius: 20px;
-  margin-right: 20px;
   margin-bottom: 30px;
   transition: box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out; //анимация на hover
 
@@ -39,5 +38,6 @@
 
 .plus {
   cursor: pointer;
+  margin-top: 20px;
   }
 
