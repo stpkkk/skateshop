@@ -3,7 +3,6 @@ import { useUserContext } from "../../contexts/userContext";
 import { Form, Card, Button } from "react-bootstrap";
 import { GoogleButton } from "react-google-button";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const SignIn = ({ toggleIndex, authIndex }) => {
@@ -11,7 +10,6 @@ const SignIn = ({ toggleIndex, authIndex }) => {
   const passwordRef = useRef();
 
   const { error, signInUser, forgotPassword, googleSignIn } = useUserContext();
-  const notify = () => toast("Check your email!");
 
   const navigate = useNavigate();
 
@@ -40,9 +38,9 @@ const SignIn = ({ toggleIndex, authIndex }) => {
   const forgotPasswordHandler = () => {
     const email = emailRef.current.value;
     if (email)
-      forgotPassword(email).then(() => {
-        emailRef.current.value = "";
-      });
+	forgotPassword(email).then(() => {
+		emailRef.current.value = "";
+	});
   };
 
   return (
@@ -73,7 +71,7 @@ const SignIn = ({ toggleIndex, authIndex }) => {
         <div
           className="text-center mb-2"
           style={{ cursor: "pointer" }}
-          onClick={forgotPasswordHandler} notify
+          onClick={forgotPasswordHandler}
         >
           Forgot password?
         </div>

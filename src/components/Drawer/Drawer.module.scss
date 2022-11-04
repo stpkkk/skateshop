@@ -4,7 +4,7 @@
   top: 0;
   height: 100%;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: rgba(0, 0, 0, 0.5);
   z-index: 1;
   visibility: hidden;
   opacity: 0; //анимация корзины
@@ -15,6 +15,7 @@
 .overlayVisible {
   visibility: visible; //анимация корзины
   opacity: 1;
+  z-index: 11;
 
   .drawer {
     transform: translateX(0); //анимация корзины

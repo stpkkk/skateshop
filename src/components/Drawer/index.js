@@ -15,7 +15,6 @@ const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms)); // ко
 const Drawer = ({ onCloseCart, items = [], onRemoveItemCart, opened }) => {
   const [orderId, setOrderId] = useState(null); // номер заказа
   const [isOrderComplete, setIsOrderComplete] = useState(false);
-
   const { cartItems, setCartItems, totalPrice } = useCart(); //кастомный хук
   const [isLoading, setIsLoading] = useState(false); //true дб, 7 урок 3.10 часа
 
