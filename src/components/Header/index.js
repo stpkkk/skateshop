@@ -1,13 +1,13 @@
 import { React, useContext } from "react";
 import { Link } from "react-router-dom";
-import "./Header.module.scss";
+import "./Header.module.css";
 import { useCart } from "../../hooks/useCart";
 import ReactSwitch from "react-switch"; //toggle for theme
 
 import AppContext from "../../contexts/context";
 import { useUserContext } from "../../contexts/userContext";
 
-const Header = (props) => {
+const Header = props => {
   const { totalPrice } = useCart();
 
   const { theme, toggleTheme } = useContext(AppContext);
@@ -20,6 +20,8 @@ const Header = (props) => {
       console.log(error);
     }
   };
+
+  console.log(totalPrice);
 
   return (
     <header className="d-flex justify-between align-center p-20">
@@ -66,12 +68,12 @@ const Header = (props) => {
         </Link>
 
         {user ? (
-			<Link to="/">
-          <li className="cu-p d-flex" onClick={handleSignOut}>
-            <div className="mr-10 justify-content-center">Log Out</div>
-            <img src="img/login.svg" alt="Log Out" width={20} height={20} />
-          </li>
-		  </Link>
+          <Link to="/">
+            <li className="cu-p d-flex" onClick={handleSignOut}>
+              <div className="mr-10 justify-content-center">Log Out</div>
+              <img src="img/login.svg" alt="Log Out" width={20} height={20} />
+            </li>
+          </Link>
         ) : (
           <Link to="/authform">
             <li className="cu-p d-flex">

@@ -8,7 +8,7 @@
   margin: 0 auto;
   margin-bottom: 40px;
   max-width: 1000px;
-  overflow: hidden; //адаптивность слайдера make the content flowing outside the element's box invisible
+  overflow: hidden;
 }
 
 .sliderImg {
@@ -18,10 +18,25 @@
   position: relative;
 }
 
+<<<<<<< main:src/components/slider/Slider.module.scss
 .slide.active {
   transition: ease-in-out 2000ms;
 }
+=======
+<<<<<<< 2b19ebd0709e387f3ec57f23a6f93264974c574d:src/components/slider/Slider.module.scss
+// .slide.active {
+//   transition: ease-in-out 2000ms;
+// }
+=======
+<<<<<<< main:src/components/slider/Slider.module.scss
+.slide.active {
+  transition: ease-in-out 2000ms;
+}
+>>>>>>> fix styles imports:src/components/slider/Slider.module.css
+>>>>>>> fix styles imports:src/components/slider/Slider.module.css
 
+=======
+>>>>>>> fix styles imports:src/components/slider/Slider.module.css
 .rightArrow {
   position: absolute;
   top: 50%;
@@ -55,5 +70,5 @@
 }
 
 .sliderDots.active {
-	background-color: #6a0dad;
-  }
+  background-color: #6a0dad;
+}

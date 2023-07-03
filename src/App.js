@@ -79,39 +79,37 @@ function App() {
     fetchData();
   }, []);
 
- /**
+  /**
   @param 
   */
- const onClickCart = () => {
+  const onClickCart = () => {
     setCartOpened(true);
   };
-  
 
   const onCloseСart = () => {
     setCartOpened(false);
   };
 
-  const onAddToCart = async (obj) => {
+  const onAddToCart = async obj => {
     try {
       const findItem = cartItems.find(
-        (item) => Number(item.parentId) === Number(obj.id)
+        item => Number(item.parentId) === Number(obj.id)
       ); //найди parentId  равный id у обьекта
       if (findItem) {
         setCartItems(
-          (prev) =>
-            prev.filter((item) => Number(item.parentId) !== Number(obj.id)) //filter = найди этот обьект и отфильтруй его в state
+          prev => prev.filter(item => Number(item.parentId) !== Number(obj.id)) //filter = найди этот обьект и отфильтруй его в state
         );
         await axios.delete(
           `https://629f94fc461f8173e4ececc6.mockapi.io/cart/${findItem.id}` // отправь запрос на удаление и из корзины удали найденный по id товар
         );
       } else {
-        setCartItems((prev) => [...prev, obj]);
+        setCartItems(prev => [...prev, obj]);
         const { data } = await axios.post(
           "https://629f94fc461f8173e4ececc6.mockapi.io/cart",
           obj
         );
-        setCartItems((prev) =>
-          prev.map((item) => {
+        setCartItems(prev =>
+          prev.map(item => {
             if (item.parentId === data.parentId) {
               // data.id кот с бэка
               return {
@@ -129,26 +127,24 @@ function App() {
     }
   }; //https://youtu.be/C_3ZT7j1_jc?t=7614
 
-  const onRemoveItemCart = (id) => {
+  const onRemoveItemCart = id => {
     try {
       axios.delete(`https://629f94fc461f8173e4ececc6.mockapi.io/cart/${id}`);
-      setCartItems((prev) => prev.filter((item) => item.id !== id));
+      setCartItems(prev => prev.filter(item => item.id !== id));
     } catch (error) {
       alert("Delete from cart error");
       console.error(error);
     }
   };
 
-  const onAddToFavorite = async (obj) => {
+  const onAddToFavorite = async obj => {
     try {
-      if (
-        favoriteItems.find((favObj) => Number(favObj.id) === Number(obj.id))
-      ) {
+      if (favoriteItems.find(favObj => Number(favObj.id) === Number(obj.id))) {
         axios.delete(
           `https://629f94fc461f8173e4ececc6.mockapi.io/favorites/${obj.id}`
         );
-        setFavoriteItems((prev) =>
-          prev.filter((item) => Number(item.id) !== Number(obj.id))
+        setFavoriteItems(prev =>
+          prev.filter(item => Number(item.id) !== Number(obj.id))
         );
       } else {
         const { data } = await axios.post(
@@ -156,7 +152,7 @@ function App() {
           obj
         ); // ждем делит запрос потом отправляем этот запрос, await говорит что сначала выполни пред запрос , т.е. с помощь. этого запроса берем обьект не с home.jsx а с бэкэнда и дальше отрисовываем его
 
-        setFavoriteItems((prev) => [...prev, data]);
+        setFavoriteItems(prev => [...prev, data]);
       }
     } catch (error) {
       alert("Could not be added to favorite");
@@ -165,7 +161,7 @@ function App() {
   }; //trycatch нужен чтобы отловить ошибку при вызове запроса, а без него не узнать когда эта ошибка произойдет
 
   //Search
-  const onChangeSearchInput = (event) => {
+  const onChangeSearchInput = event => {
     setSearchValue(event.target.value);
   };
 
@@ -173,16 +169,15 @@ function App() {
     setSearchValue("");
   };
 
-  const isItemAdded = (id) => {
-    return cartItems.some((obj) => Number(obj.parentId) === Number(id));
+  const isItemAdded = id => {
+    return cartItems.some(obj => Number(obj.parentId) === Number(id));
   }; // пробегаемся по массиву в корзине и уже в массиве корзины вытаскивать parentId и сверять его с id кот. будет передаваться в карточке
 
   const toggleTheme = () => {
-    setTheme((curr) => (curr === "light" ? "dark" : "light"));
+    setTheme(curr => (curr === "light" ? "dark" : "light"));
   };
 
   return (
-	
     <AppContext.Provider
       value={{
         items,
@@ -207,12 +202,10 @@ function App() {
         />
         <Header onClickCart={onClickCart} />
         <Routes>
-
           <Route
             path="/"
             exact
             element={
-				
               <Home
                 cartItems={cartItems}
                 items={items}
@@ -227,7 +220,7 @@ function App() {
               />
             }
           />
-		  
+
           <Route path="/favorites" exact element={<Favorites />} />
           <Route path="/orders" exact element={<Orders />} />
           <Route path="/authform" element={<AuthForm />} />

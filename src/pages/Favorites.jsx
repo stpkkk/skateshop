@@ -1,12 +1,13 @@
 import { useContext, React } from "react";
 import Card from "../components/card";
 import { Link } from "react-router-dom";
-import "../index.scss";
+import "../index.css";
 import AppContext from "../contexts/context";
 import Info from "../components/info";
 
 const Favorites = () => {
-  const {favoriteItems, onAddToFavorite, onAddToCart} = useContext(AppContext); //Context API
+  const { favoriteItems, onAddToFavorite, onAddToCart } =
+    useContext(AppContext); //Context API
   return (
     <div className="content p-40">
       <div className="d-flex align-center mb-40">
@@ -26,7 +27,7 @@ const Favorites = () => {
           {favoriteItems.map((item, index) => (
             <Card
               key={index}
-              onCart={(obj) => onAddToCart(obj)}
+              onCart={obj => onAddToCart(obj)}
               onFavorite={onAddToFavorite}
               favorited={true}
               {...item} //передаем весь item id title price imgUrl как в Home.jsx,  передаем id в кард для того чтобы удалить добавить в избранное кнопка сердце
@@ -34,7 +35,12 @@ const Favorites = () => {
           ))}
         </div>
       ) : (
-		<Info width="70" height="70" image="/img/nothing-in-favorites.png" description="Nothing added to favorites"/>
+        <Info
+          width="70"
+          height="70"
+          image="/img/nothing-in-favorites.png"
+          description="Nothing added to favorites"
+        />
       )}
     </div>
   );
