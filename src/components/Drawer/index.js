@@ -7,10 +7,10 @@ import AppContext from "../../contexts/context";
 
 import { useCart } from "../../hooks/useCart";
 
-import "../../index.scss";
-import styles from "./Drawer.module.scss";
+import "../../index.css";
+import styles from "./Drawer.module.css";
 
-const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms)); // костыль для mockapi
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms)); // костыль для mockapi
 
 const Drawer = ({ onCloseCart, items = [], onRemoveItemCart, opened }) => {
   const [orderId, setOrderId] = useState(null); // номер заказа

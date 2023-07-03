@@ -2,7 +2,7 @@
 
 //https://www.youtube.com/watch?v=SK9AlIbexOE&t=744s
 import React, { useState, useEffect } from "react";
-import styles from "./Slider.module.scss";
+import styles from "./Slider.module.css";
 import {
   BsFillArrowLeftCircleFill,
   BsFillArrowRightCircleFill,
@@ -16,7 +16,7 @@ const Slider = ({ slides }) => {
   useEffect(() => {
     setTimeout(
       () =>
-        setCurrent((prevIndex) =>
+        setCurrent(prevIndex =>
           prevIndex === sliderData.length - 1 ? 0 : prevIndex + 1
         ),
       delay
@@ -33,7 +33,7 @@ const Slider = ({ slides }) => {
     setCurrent(current === 0 ? slides.length - 1 : current - 1);
   };
 
-  const goToSlide = (slideIndex) => {
+  const goToSlide = slideIndex => {
     setCurrent(slideIndex);
   };
 

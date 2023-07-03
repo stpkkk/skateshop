@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import styles from "./Card.module.scss";
+import styles from "./Card.module.css";
 import ContentLoader from "react-content-loader";
 import AppContext from "../../contexts/context";
 

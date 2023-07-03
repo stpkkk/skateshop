@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Card } from "react-bootstrap";
-import "./Auth.module.scss";
+import "./Auth.module.css";
 
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
@@ -8,7 +8,7 @@ import SignUp from "./SignUp";
 const AuthForm = () => {
   const [authIndex, setAuthIndex] = useState(false);
   const toggleAuthIndex = () => {
-    setAuthIndex((prevState) => !prevState);
+    setAuthIndex(prevState => !prevState);
   };
 
   return (
