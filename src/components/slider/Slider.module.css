@@ -18,25 +18,14 @@
   position: relative;
 }
 
-<<<<<<< main:src/components/slider/Slider.module.scss
 .slide.active {
   transition: ease-in-out 2000ms;
 }
-=======
-<<<<<<< 2b19ebd0709e387f3ec57f23a6f93264974c574d:src/components/slider/Slider.module.scss
-// .slide.active {
-//   transition: ease-in-out 2000ms;
-// }
-=======
-<<<<<<< main:src/components/slider/Slider.module.scss
-.slide.active {
-  transition: ease-in-out 2000ms;
-}
->>>>>>> fix styles imports:src/components/slider/Slider.module.css
->>>>>>> fix styles imports:src/components/slider/Slider.module.css
 
-=======
->>>>>>> fix styles imports:src/components/slider/Slider.module.css
+.slide.active {
+  transition: ease-in-out 2000ms;
+}
+
 .rightArrow {
   position: absolute;
   top: 50%;

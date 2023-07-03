@@ -21,8 +21,6 @@ const Header = props => {
     }
   };
 
-  console.log(totalPrice);
-
   return (
     <header className="d-flex justify-between align-center p-20">
       <Link to="/">
